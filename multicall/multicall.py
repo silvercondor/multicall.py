@@ -36,14 +36,15 @@ class Multicall:
         block_id: Optional[int] = None, 
         require_success: bool = True,
         gas_limit: int = GAS_LIMIT,
-        _w3: Web3 = w3
+        _w3: Web3 = w3,
+        chainid: Optional[int] = None
     ) -> None:
         self.calls = calls
         self.block_id = block_id
         self.require_success = require_success
         self.gas_limit = gas_limit
         self.w3 = _w3
-        self.chainid = chain_id(self.w3)
+        self.chainid = chain_id(self.w3) if not chainid else chainid
         if require_success is True:
             multicall_map = MULTICALL_ADDRESSES if self.chainid in MULTICALL_ADDRESSES else MULTICALL2_ADDRESSES
             self.multicall_sig = 'aggregate((address,bytes)[])(uint256,bytes[])'
